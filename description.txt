@@ -1,0 +1,21 @@
+AstroQuiz – Fun Trivia Game
+
+Core Functionality:
+- Randomly generate multiple‑choice questions about the Sun, Moon, and stars.
+- Track high scores locally (no server needed).
+- Animated glass‑morphism cards for each question with smooth transitions.
+
+Why it fits:
+- Engages visitors and encourages repeat visits.
+- Re‑uses the same astronomical data sources as MoonApp and SunApp.
+- Fully offline – perfect for a privacy‑first site.
+
+Potential UI Elements:
+- Card flip animation when revealing the answer.
+- Score board displayed in a glass‑morphism panel.
+- Simple “Next question” button with hover scaling.
+
+Design & Development Rules:
+- All pages must have footers as similar to SunApp as possible.
+- The favicon in SVG must be in the mainhead.
+- Once ready, I want to see it in localhost before we git push it.
