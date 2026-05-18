@@ -200,59 +200,66 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator { filter: invert
 .difficulty-selector {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 0.6rem;
+  gap: 0.75rem;
 }
 .difficulty-btn {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.15rem;
-  padding: 0.7rem 0.5rem;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  color: var(--text-secondary);
+  gap: 0.3rem;
+  padding: 1.1rem 0.75rem;
+  min-height: 80px;
+  background: rgba(240, 244, 255, 0.96);
+  border: 2px solid rgba(255, 255, 255, 0.18);
+  border-radius: 14px;
+  color: #1a1f33;
   font-family: inherit;
-  font-size: 0.95rem;
-  font-weight: 600;
+  font-size: 1.05rem;
+  font-weight: 700;
   line-height: 1.1;
   cursor: pointer;
-  transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+  transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
 }
 .difficulty-btn:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.3);
-  color: var(--text-primary);
-  transform: translateY(-1px);
+  background: #ffffff;
+  border-color: rgba(162, 130, 255, 0.55);
+  color: #0a0e1c;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
 }
 .difficulty-btn.active {
-  background: var(--grad-primary);
-  border-color: transparent;
-  color: #0a0e1c;
-  box-shadow: 0 8px 22px rgba(130, 170, 255, 0.35);
-  transform: translateY(-2px);
+  background: linear-gradient(135deg, #a282ff 0%, #7c5fe5 100%);
+  border-color: rgba(162, 130, 255, 0.9);
+  color: #ffffff;
+  transform: translateY(-3px);
+  box-shadow:
+    0 0 0 3px rgba(162, 130, 255, 0.35),
+    0 12px 28px rgba(124, 95, 229, 0.55);
 }
 .difficulty-btn.active:hover {
-  transform: translateY(-2px);
-  color: #0a0e1c;
+  background: linear-gradient(135deg, #b094ff 0%, #8b6ff0 100%);
+  border-color: rgba(162, 130, 255, 1);
+  color: #ffffff;
+  transform: translateY(-3px);
 }
 .difficulty-name {
-  font-size: 0.95rem;
-  font-weight: 700;
+  font-size: 1.05rem;
+  font-weight: 800;
   letter-spacing: 0.02em;
 }
 .difficulty-count {
-  font-size: 0.72rem;
-  font-weight: 500;
-  opacity: 0.7;
+  font-size: 0.8rem;
+  font-weight: 600;
+  opacity: 0.65;
   letter-spacing: 0.04em;
 }
 .difficulty-btn.active .difficulty-count {
-  opacity: 0.85;
+  opacity: 0.92;
 }
 @media (max-width: 480px) {
   .difficulty-selector { grid-template-columns: repeat(2, 1fr); }
+  .difficulty-btn { min-height: 72px; padding: 0.9rem 0.5rem; }
 }
 .score-board {
   display: flex;
