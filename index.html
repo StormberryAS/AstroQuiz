@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!--
+    Psalm 146:4 - Sixto-Clementine Vulgate / Douay-Rheims
+    Qui numerat multitudinem stellarum, et omnibus eis nomina vocat.
+    Who telleth the number of the stars: and calleth them all by their names.
+  -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- SEO -->
+  <title>AstroQuiz | Fun Space Trivia</title>
+  <meta name="description" content="Test your astronomical knowledge with AstroQuiz. Privacy-first, offline-capable space trivia." />
+
+  <!-- Local Fonts: Inter (bundled, no external requests) -->
+  <link rel="stylesheet" href="fonts/inter/inter.css" />
+
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ============================================================
+       HEADER / HERO
+  ============================================================ -->
+  <header class="site-header">
+    <div class="header-glow"></div>
+    <div class="header-content">
+      <!-- Minimalist Constellation/Star icon -->
+      <div class="star-icon" aria-hidden="true">
+        
+        <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="32" cy="32" r="28" stroke="url(#lineGrad)"/>
+          <circle cx="32" cy="32" r="20" stroke="url(#lineGrad)"/>
+          <circle cx="32" cy="32" r="12" fill="url(#starGrad)"/>
+          <circle cx="14" cy="14" r="3" fill="#a0c0ff"/>
+          <circle cx="50" cy="50" r="4" fill="#ffc0a0"/>
+          <defs>
+            <radialGradient id="starGrad" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#fff"/>
+              <stop offset="100%" stop-color="#ffddaa"/>
+            </radialGradient>
+            <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="rgba(255,255,255,0.6)"/>
+              <stop offset="100%" stop-color="rgba(255,255,255,0.2)"/>
+            </linearGradient>
+          </defs>
+        </svg>
+
+      </div>
+
+      <div class="header-text">
+        <h1>AstroQuiz</h1>
+        <p class="tagline">TEST YOUR COSMIC KNOWLEDGE</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============================================================
+       MAIN CONTENT
+  ============================================================ -->
+  <main class="main-container">
+    <section class="card quiz-card" id="quiz-container">
+      <div class="score-board">
+        <div class="score-item">Score: <span id="current-score">0</span></div>
+        <div class="score-item">High Score: <span id="high-score">0</span></div>
+      </div>
+      
+      <div class="question-container" id="question-wrapper">
+        <div class="question-header">Question <span id="question-number">1</span>/10</div>
+        <h2 id="question-text">Loading...</h2>
+        <div id="options-container" class="options-grid"></div>
+      </div>
+
+      <div id="feedback-container" class="feedback-hidden">
+        <h3 id="feedback-text"></h3>
+        <p id="feedback-explanation"></p>
+        <button id="next-btn" class="btn btn-primary">Next Question</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============================================================
+       FOOTER — Stormberry branded
+  ============================================================ -->
+        <section class="app-switcher-container">
+          <div class="container">
+            <h3 class="switcher-title">Explore the Stormberry Ecosystem</h3>
+            <div class="app-switcher-marquee">
+              <div class="app-switcher-track">
+                <a href="https://stormberry.as/labs.html" class="switcher-card"><img src="https://stormberry.as/labs-favicon.svg" alt="Labs" style="width:32px;height:32px;opacity:0.9;"> <span>Stormberry Labs</span></a>
+                <a href="https://sun.stormberry.as" class="switcher-card"><img src="https://sun.stormberry.as/favicon.svg" alt="SunApp" style="width:32px;height:32px;opacity:0.9;"> <span>SunApp</span></a>
+                <a href="https://moon.stormberry.as" class="switcher-card"><img src="https://moon.stormberry.as/favicon.svg" alt="MoonApp" style="width:32px;height:32px;opacity:0.9;"> <span>MoonApp</span></a>
+                <a href="https://photo.stormberry.as" class="switcher-card"><img src="https://photo.stormberry.as/favicon.svg" alt="PhotoTimer" style="width:32px;height:32px;opacity:0.9;"> <span>PhotoTimer</span></a>
+                <a href="https://garden.stormberry.as" class="switcher-card"><img src="https://garden.stormberry.as/favicon.svg" alt="LunarGarden" style="width:32px;height:32px;opacity:0.9;"> <span>LunarGarden</span></a>
+                <a href="https://planet.stormberry.as" class="switcher-card"><img src="https://planet.stormberry.as/favicon.svg" alt="PlanetPulse" style="width:32px;height:32px;opacity:0.9;"> <span>PlanetPulse</span></a>
+                <a href="https://star.stormberry.as" class="switcher-card"><img src="https://star.stormberry.as/favicon.svg" alt="StarMap" style="width:32px;height:32px;opacity:0.9;"> <span>StarMap</span></a>
+                <a href="https://quiz.stormberry.as" class="switcher-card"><img src="https://quiz.stormberry.as/favicon.svg" alt="AstroQuiz" style="width:32px;height:32px;opacity:0.9;"> <span>AstroQuiz</span></a>
+                <a href="https://stormberry.as/labs.html" class="switcher-card"><img src="https://stormberry.as/labs-favicon.svg" alt="Labs" style="width:32px;height:32px;opacity:0.9;"> <span>Stormberry Labs</span></a>
+                <a href="https://sun.stormberry.as" class="switcher-card"><img src="https://sun.stormberry.as/favicon.svg" alt="SunApp" style="width:32px;height:32px;opacity:0.9;"> <span>SunApp</span></a>
+                <a href="https://moon.stormberry.as" class="switcher-card"><img src="https://moon.stormberry.as/favicon.svg" alt="MoonApp" style="width:32px;height:32px;opacity:0.9;"> <span>MoonApp</span></a>
+                <a href="https://photo.stormberry.as" class="switcher-card"><img src="https://photo.stormberry.as/favicon.svg" alt="PhotoTimer" style="width:32px;height:32px;opacity:0.9;"> <span>PhotoTimer</span></a>
+                <a href="https://garden.stormberry.as" class="switcher-card"><img src="https://garden.stormberry.as/favicon.svg" alt="LunarGarden" style="width:32px;height:32px;opacity:0.9;"> <span>LunarGarden</span></a>
+                <a href="https://planet.stormberry.as" class="switcher-card"><img src="https://planet.stormberry.as/favicon.svg" alt="PlanetPulse" style="width:32px;height:32px;opacity:0.9;"> <span>PlanetPulse</span></a>
+                <a href="https://star.stormberry.as" class="switcher-card"><img src="https://star.stormberry.as/favicon.svg" alt="StarMap" style="width:32px;height:32px;opacity:0.9;"> <span>StarMap</span></a>
+                <a href="https://quiz.stormberry.as" class="switcher-card"><img src="https://quiz.stormberry.as/favicon.svg" alt="AstroQuiz" style="width:32px;height:32px;opacity:0.9;"> <span>AstroQuiz</span></a>
+                <a href="https://stormberry.as/labs.html" class="switcher-card"><img src="https://stormberry.as/labs-favicon.svg" alt="Labs" style="width:32px;height:32px;opacity:0.9;"> <span>Stormberry Labs</span></a>
+                <a href="https://sun.stormberry.as" class="switcher-card"><img src="https://sun.stormberry.as/favicon.svg" alt="SunApp" style="width:32px;height:32px;opacity:0.9;"> <span>SunApp</span></a>
+                <a href="https://moon.stormberry.as" class="switcher-card"><img src="https://moon.stormberry.as/favicon.svg" alt="MoonApp" style="width:32px;height:32px;opacity:0.9;"> <span>MoonApp</span></a>
+                <a href="https://photo.stormberry.as" class="switcher-card"><img src="https://photo.stormberry.as/favicon.svg" alt="PhotoTimer" style="width:32px;height:32px;opacity:0.9;"> <span>PhotoTimer</span></a>
+                <a href="https://garden.stormberry.as" class="switcher-card"><img src="https://garden.stormberry.as/favicon.svg" alt="LunarGarden" style="width:32px;height:32px;opacity:0.9;"> <span>LunarGarden</span></a>
+                <a href="https://planet.stormberry.as" class="switcher-card"><img src="https://planet.stormberry.as/favicon.svg" alt="PlanetPulse" style="width:32px;height:32px;opacity:0.9;"> <span>PlanetPulse</span></a>
+                <a href="https://star.stormberry.as" class="switcher-card"><img src="https://star.stormberry.as/favicon.svg" alt="StarMap" style="width:32px;height:32px;opacity:0.9;"> <span>StarMap</span></a>
+                <a href="https://quiz.stormberry.as" class="switcher-card"><img src="https://quiz.stormberry.as/favicon.svg" alt="AstroQuiz" style="width:32px;height:32px;opacity:0.9;"> <span>AstroQuiz</span></a>
+                <a href="https://stormberry.as/labs.html" class="switcher-card"><img src="https://stormberry.as/labs-favicon.svg" alt="Labs" style="width:32px;height:32px;opacity:0.9;"> <span>Stormberry Labs</span></a>
+                <a href="https://sun.stormberry.as" class="switcher-card"><img src="https://sun.stormberry.as/favicon.svg" alt="SunApp" style="width:32px;height:32px;opacity:0.9;"> <span>SunApp</span></a>
+                <a href="https://moon.stormberry.as" class="switcher-card"><img src="https://moon.stormberry.as/favicon.svg" alt="MoonApp" style="width:32px;height:32px;opacity:0.9;"> <span>MoonApp</span></a>
+                <a href="https://photo.stormberry.as" class="switcher-card"><img src="https://photo.stormberry.as/favicon.svg" alt="PhotoTimer" style="width:32px;height:32px;opacity:0.9;"> <span>PhotoTimer</span></a>
+                <a href="https://garden.stormberry.as" class="switcher-card"><img src="https://garden.stormberry.as/favicon.svg" alt="LunarGarden" style="width:32px;height:32px;opacity:0.9;"> <span>LunarGarden</span></a>
+                <a href="https://planet.stormberry.as" class="switcher-card"><img src="https://planet.stormberry.as/favicon.svg" alt="PlanetPulse" style="width:32px;height:32px;opacity:0.9;"> <span>PlanetPulse</span></a>
+                <a href="https://star.stormberry.as" class="switcher-card"><img src="https://star.stormberry.as/favicon.svg" alt="StarMap" style="width:32px;height:32px;opacity:0.9;"> <span>StarMap</span></a>
+                <a href="https://quiz.stormberry.as" class="switcher-card"><img src="https://quiz.stormberry.as/favicon.svg" alt="AstroQuiz" style="width:32px;height:32px;opacity:0.9;"> <span>AstroQuiz</span></a>
+                <a href="https://stormberry.as/labs.html" class="switcher-card"><img src="https://stormberry.as/labs-favicon.svg" alt="Labs" style="width:32px;height:32px;opacity:0.9;"> <span>Stormberry Labs</span></a>
+                <a href="https://sun.stormberry.as" class="switcher-card"><img src="https://sun.stormberry.as/favicon.svg" alt="SunApp" style="width:32px;height:32px;opacity:0.9;"> <span>SunApp</span></a>
+                <a href="https://moon.stormberry.as" class="switcher-card"><img src="https://moon.stormberry.as/favicon.svg" alt="MoonApp" style="width:32px;height:32px;opacity:0.9;"> <span>MoonApp</span></a>
+                <a href="https://photo.stormberry.as" class="switcher-card"><img src="https://photo.stormberry.as/favicon.svg" alt="PhotoTimer" style="width:32px;height:32px;opacity:0.9;"> <span>PhotoTimer</span></a>
+                <a href="https://garden.stormberry.as" class="switcher-card"><img src="https://garden.stormberry.as/favicon.svg" alt="LunarGarden" style="width:32px;height:32px;opacity:0.9;"> <span>LunarGarden</span></a>
+                <a href="https://planet.stormberry.as" class="switcher-card"><img src="https://planet.stormberry.as/favicon.svg" alt="PlanetPulse" style="width:32px;height:32px;opacity:0.9;"> <span>PlanetPulse</span></a>
+                <a href="https://star.stormberry.as" class="switcher-card"><img src="https://star.stormberry.as/favicon.svg" alt="StarMap" style="width:32px;height:32px;opacity:0.9;"> <span>StarMap</span></a>
+                <a href="https://quiz.stormberry.as" class="switcher-card"><img src="https://quiz.stormberry.as/favicon.svg" alt="AstroQuiz" style="width:32px;height:32px;opacity:0.9;"> <span>AstroQuiz</span></a>
+                <a href="https://stormberry.as/labs.html" class="switcher-card"><img src="https://stormberry.as/labs-favicon.svg" alt="Labs" style="width:32px;height:32px;opacity:0.9;"> <span>Stormberry Labs</span></a>
+                <a href="https://sun.stormberry.as" class="switcher-card"><img src="https://sun.stormberry.as/favicon.svg" alt="SunApp" style="width:32px;height:32px;opacity:0.9;"> <span>SunApp</span></a>
+                <a href="https://moon.stormberry.as" class="switcher-card"><img src="https://moon.stormberry.as/favicon.svg" alt="MoonApp" style="width:32px;height:32px;opacity:0.9;"> <span>MoonApp</span></a>
+                <a href="https://photo.stormberry.as" class="switcher-card"><img src="https://photo.stormberry.as/favicon.svg" alt="PhotoTimer" style="width:32px;height:32px;opacity:0.9;"> <span>PhotoTimer</span></a>
+                <a href="https://garden.stormberry.as" class="switcher-card"><img src="https://garden.stormberry.as/favicon.svg" alt="LunarGarden" style="width:32px;height:32px;opacity:0.9;"> <span>LunarGarden</span></a>
+                <a href="https://planet.stormberry.as" class="switcher-card"><img src="https://planet.stormberry.as/favicon.svg" alt="PlanetPulse" style="width:32px;height:32px;opacity:0.9;"> <span>PlanetPulse</span></a>
+                <a href="https://star.stormberry.as" class="switcher-card"><img src="https://star.stormberry.as/favicon.svg" alt="StarMap" style="width:32px;height:32px;opacity:0.9;"> <span>StarMap</span></a>
+                <a href="https://quiz.stormberry.as" class="switcher-card"><img src="https://quiz.stormberry.as/favicon.svg" alt="AstroQuiz" style="width:32px;height:32px;opacity:0.9;"> <span>AstroQuiz</span></a>
+                <a href="https://stormberry.as/labs.html" class="switcher-card"><img src="https://stormberry.as/labs-favicon.svg" alt="Labs" style="width:32px;height:32px;opacity:0.9;"> <span>Stormberry Labs</span></a>
+                <a href="https://sun.stormberry.as" class="switcher-card"><img src="https://sun.stormberry.as/favicon.svg" alt="SunApp" style="width:32px;height:32px;opacity:0.9;"> <span>SunApp</span></a>
+                <a href="https://moon.stormberry.as" class="switcher-card"><img src="https://moon.stormberry.as/favicon.svg" alt="MoonApp" style="width:32px;height:32px;opacity:0.9;"> <span>MoonApp</span></a>
+                <a href="https://photo.stormberry.as" class="switcher-card"><img src="https://photo.stormberry.as/favicon.svg" alt="PhotoTimer" style="width:32px;height:32px;opacity:0.9;"> <span>PhotoTimer</span></a>
+                <a href="https://garden.stormberry.as" class="switcher-card"><img src="https://garden.stormberry.as/favicon.svg" alt="LunarGarden" style="width:32px;height:32px;opacity:0.9;"> <span>LunarGarden</span></a>
+                <a href="https://planet.stormberry.as" class="switcher-card"><img src="https://planet.stormberry.as/favicon.svg" alt="PlanetPulse" style="width:32px;height:32px;opacity:0.9;"> <span>PlanetPulse</span></a>
+                <a href="https://star.stormberry.as" class="switcher-card"><img src="https://star.stormberry.as/favicon.svg" alt="StarMap" style="width:32px;height:32px;opacity:0.9;"> <span>StarMap</span></a>
+                <a href="https://quiz.stormberry.as" class="switcher-card"><img src="https://quiz.stormberry.as/favicon.svg" alt="AstroQuiz" style="width:32px;height:32px;opacity:0.9;"> <span>AstroQuiz</span></a>
+                <a href="https://stormberry.as/labs.html" class="switcher-card"><img src="https://stormberry.as/labs-favicon.svg" alt="Labs" style="width:32px;height:32px;opacity:0.9;"> <span>Stormberry Labs</span></a>
+                <a href="https://sun.stormberry.as" class="switcher-card"><img src="https://sun.stormberry.as/favicon.svg" alt="SunApp" style="width:32px;height:32px;opacity:0.9;"> <span>SunApp</span></a>
+                <a href="https://moon.stormberry.as" class="switcher-card"><img src="https://moon.stormberry.as/favicon.svg" alt="MoonApp" style="width:32px;height:32px;opacity:0.9;"> <span>MoonApp</span></a>
+                <a href="https://photo.stormberry.as" class="switcher-card"><img src="https://photo.stormberry.as/favicon.svg" alt="PhotoTimer" style="width:32px;height:32px;opacity:0.9;"> <span>PhotoTimer</span></a>
+                <a href="https://garden.stormberry.as" class="switcher-card"><img src="https://garden.stormberry.as/favicon.svg" alt="LunarGarden" style="width:32px;height:32px;opacity:0.9;"> <span>LunarGarden</span></a>
+                <a href="https://planet.stormberry.as" class="switcher-card"><img src="https://planet.stormberry.as/favicon.svg" alt="PlanetPulse" style="width:32px;height:32px;opacity:0.9;"> <span>PlanetPulse</span></a>
+                <a href="https://star.stormberry.as" class="switcher-card"><img src="https://star.stormberry.as/favicon.svg" alt="StarMap" style="width:32px;height:32px;opacity:0.9;"> <span>StarMap</span></a>
+                <a href="https://quiz.stormberry.as" class="switcher-card"><img src="https://quiz.stormberry.as/favicon.svg" alt="AstroQuiz" style="width:32px;height:32px;opacity:0.9;"> <span>AstroQuiz</span></a>
+                <a href="https://stormberry.as/labs.html" class="switcher-card"><img src="https://stormberry.as/labs-favicon.svg" alt="Labs" style="width:32px;height:32px;opacity:0.9;"> <span>Stormberry Labs</span></a>
+                <a href="https://sun.stormberry.as" class="switcher-card"><img src="https://sun.stormberry.as/favicon.svg" alt="SunApp" style="width:32px;height:32px;opacity:0.9;"> <span>SunApp</span></a>
+                <a href="https://moon.stormberry.as" class="switcher-card"><img src="https://moon.stormberry.as/favicon.svg" alt="MoonApp" style="width:32px;height:32px;opacity:0.9;"> <span>MoonApp</span></a>
+                <a href="https://photo.stormberry.as" class="switcher-card"><img src="https://photo.stormberry.as/favicon.svg" alt="PhotoTimer" style="width:32px;height:32px;opacity:0.9;"> <span>PhotoTimer</span></a>
+                <a href="https://garden.stormberry.as" class="switcher-card"><img src="https://garden.stormberry.as/favicon.svg" alt="LunarGarden" style="width:32px;height:32px;opacity:0.9;"> <span>LunarGarden</span></a>
+                <a href="https://planet.stormberry.as" class="switcher-card"><img src="https://planet.stormberry.as/favicon.svg" alt="PlanetPulse" style="width:32px;height:32px;opacity:0.9;"> <span>PlanetPulse</span></a>
+                <a href="https://star.stormberry.as" class="switcher-card"><img src="https://star.stormberry.as/favicon.svg" alt="StarMap" style="width:32px;height:32px;opacity:0.9;"> <span>StarMap</span></a>
+                <a href="https://quiz.stormberry.as" class="switcher-card"><img src="https://quiz.stormberry.as/favicon.svg" alt="AstroQuiz" style="width:32px;height:32px;opacity:0.9;"> <span>AstroQuiz</span></a>
+                <a href="https://stormberry.as/labs.html" class="switcher-card"><img src="https://stormberry.as/labs-favicon.svg" alt="Labs" style="width:32px;height:32px;opacity:0.9;"> <span>Stormberry Labs</span></a>
+                <a href="https://sun.stormberry.as" class="switcher-card"><img src="https://sun.stormberry.as/favicon.svg" alt="SunApp" style="width:32px;height:32px;opacity:0.9;"> <span>SunApp</span></a>
+                <a href="https://moon.stormberry.as" class="switcher-card"><img src="https://moon.stormberry.as/favicon.svg" alt="MoonApp" style="width:32px;height:32px;opacity:0.9;"> <span>MoonApp</span></a>
+                <a href="https://photo.stormberry.as" class="switcher-card"><img src="https://photo.stormberry.as/favicon.svg" alt="PhotoTimer" style="width:32px;height:32px;opacity:0.9;"> <span>PhotoTimer</span></a>
+                <a href="https://garden.stormberry.as" class="switcher-card"><img src="https://garden.stormberry.as/favicon.svg" alt="LunarGarden" style="width:32px;height:32px;opacity:0.9;"> <span>LunarGarden</span></a>
+                <a href="https://planet.stormberry.as" class="switcher-card"><img src="https://planet.stormberry.as/favicon.svg" alt="PlanetPulse" style="width:32px;height:32px;opacity:0.9;"> <span>PlanetPulse</span></a>
+                <a href="https://star.stormberry.as" class="switcher-card"><img src="https://star.stormberry.as/favicon.svg" alt="StarMap" style="width:32px;height:32px;opacity:0.9;"> <span>StarMap</span></a>
+                <a href="https://quiz.stormberry.as" class="switcher-card"><img src="https://quiz.stormberry.as/favicon.svg" alt="AstroQuiz" style="width:32px;height:32px;opacity:0.9;"> <span>AstroQuiz</span></a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="https://stormberry.as" target="_blank" rel="noopener" class="footer-logo">
+          Stormberry<span class="footer-dot">.</span>
+        </a>
+        <p class="footer-tagline">Smarter sales. Global culture. AI-driven strategy.</p>
+      </div>
+
+      
+    </div>
+
+    <div class="footer-bottom">
+      <div class="footer-social">
+              <a href="https://linkedin.com/company/StormberryAS" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg></a>
+              <a href="https://github.com/StormberryAS" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.26c3 0 6-2 6-6a4.6 4.6 0 0 0-1.39-3.23 4.1 4.1 0 0 0 0-3.24s-1.1-.35-3.5 1.25a11.3 11.3 0 0 0-6 0c-2.4-1.6-3.5-1.25-3.5-1.25a4.1 4.1 0 0 0 0 3.24A4.6 4.6 0 0 0 2 10.74c0 4 3 6 6 6a4.8 4.8 0 0 0-1 3.26v4"/><path d="M9 20c-4.1 1.4-5-2.5-5-2.5"/></svg></a>
+            </div>
+      <p>&copy; 2026 Stormberry AS · Org.nr. NO 999 999 999 MVA · Askøy, Norway · <a href="https://stormberry.as/privacy.html" target="_blank" rel="noopener noreferrer">Privacy</a></p>
+      <p class="footer-privacy">Privacy First: We do not collect cookies or personal data.</p>
+      <p class="footer-ai">Proudly powered by sovereign AI agents.</p>
+    </div>
+  </footer>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
