@@ -1,69 +1,13 @@
-const questions = [
-  {
-    question: "Which planet has the most moons?",
-    options: ["Jupiter", "Saturn", "Uranus", "Neptune"],
-    answer: 1,
-    explanation: "Saturn recently overtook Jupiter as the planet with the most moons in our solar system, with over 140 discovered so far."
-  },
-  {
-    question: "What is the closest star to Earth?",
-    options: ["Proxima Centauri", "Sirius", "The Sun", "Betelgeuse"],
-    answer: 2,
-    explanation: "The Sun is the closest star to Earth, at an average distance of about 93 million miles (150 million km)."
-  },
-  {
-    question: "What is the hottest planet in our solar system?",
-    options: ["Mercury", "Venus", "Mars", "Jupiter"],
-    answer: 1,
-    explanation: "Even though Mercury is closer to the Sun, Venus is hotter due to a thick atmosphere of carbon dioxide that creates a runaway greenhouse effect."
-  },
-  {
-    question: "What phenomenon causes the phases of the Moon?",
-    options: ["Earth's shadow falling on the Moon", "The Moon's rotation on its axis", "The changing angle of sunlight reflecting off the Moon as it orbits Earth", "Clouds blocking the Moon"],
-    answer: 2,
-    explanation: "Moon phases are caused by the changing angle from which we see the sunlit portion of the Moon as it orbits Earth."
-  },
-  {
-    question: "What is the largest moon in the solar system?",
-    options: ["Titan", "Ganymede", "Callisto", "Europa"],
-    answer: 1,
-    explanation: "Jupiter's moon Ganymede is the largest in the solar system, even larger than the planet Mercury."
-  },
-  {
-    question: "Which of these is not a type of galaxy?",
-    options: ["Spiral", "Elliptical", "Irregular", "Triangular"],
-    answer: 3,
-    explanation: "Galaxies are generally classified as spiral, elliptical, or irregular. There is no 'triangular' classification."
-  },
-  {
-    question: "What marks the boundary around a black hole beyond which nothing can escape?",
-    options: ["Event Horizon", "Accretion Disk", "Singularity", "Photon Sphere"],
-    answer: 0,
-    explanation: "The event horizon is the boundary defining the region of space around a black hole from which nothing, not even light, can escape."
-  },
-  {
-    question: "How long does it take for light from the Sun to reach Earth?",
-    options: ["1 second", "8 minutes", "1 hour", "24 hours"],
-    answer: 1,
-    explanation: "It takes sunlight an average of 8 minutes and 20 seconds to travel the 93 million miles to Earth."
-  },
-  {
-    question: "What is the name of the first artificial Earth satellite?",
-    options: ["Apollo 11", "Voyager 1", "Sputnik 1", "Hubble"],
-    answer: 2,
-    explanation: "Sputnik 1 was launched into an elliptical low Earth orbit by the Soviet Union on 4 October 1957."
-  },
-  {
-    question: "Which constellation contains the North Star (Polaris)?",
-    options: ["Ursa Major", "Ursa Minor", "Orion", "Cassiopeia"],
-    answer: 1,
-    explanation: "Polaris, the North Star, is located at the end of the handle of the Little Dipper asterism, which is part of the constellation Ursa Minor."
-  }
-];
+import { questions } from './questions.js';
+
+const QUESTIONS_PER_GAME = 10;
+const RECENT_SEEN_LIMIT = 30;
+const HIGHSCORE_KEY = 'astroquiz_highscore';
+const RECENT_SEEN_KEY = 'astroquiz_recent_seen_ids';
 
 let currentScore = 0;
 let currentQuestionIndex = 0;
-let highScore = localStorage.getItem('astroquiz_highscore') || 0;
+let highScore = Number(localStorage.getItem(HIGHSCORE_KEY)) || 0;
 let activeQuestions = [];
 
 const questionText = document.getElementById('question-text');
@@ -76,15 +20,62 @@ const currentScoreEl = document.getElementById('current-score');
 const highScoreEl = document.getElementById('high-score');
 const questionNumberEl = document.getElementById('question-number');
 
+function loadRecentSeen() {
+  try {
+    const raw = localStorage.getItem(RECENT_SEEN_KEY);
+    const parsed = raw ? JSON.parse(raw) : [];
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveRecentSeen(ids) {
+  try {
+    const trimmed = ids.slice(-RECENT_SEEN_LIMIT);
+    localStorage.setItem(RECENT_SEEN_KEY, JSON.stringify(trimmed));
+  } catch {
+    // localStorage may be unavailable in private browsing; silently degrade.
+  }
+}
+
+function shuffle(array) {
+  const out = [...array];
+  for (let i = out.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [out[i], out[j]] = [out[j], out[i]];
+  }
+  return out;
+}
+
+function pickQuestionsForGame() {
+  const recent = loadRecentSeen();
+  const recentSet = new Set(recent);
+  let pool = questions.filter(q => !recentSet.has(q.id));
+
+  // If too few unseen questions remain, reset the memory so the player keeps
+  // getting full ten-question games. Without this the pool could starve and
+  // a game would have fewer than ten questions.
+  if (pool.length < QUESTIONS_PER_GAME) {
+    pool = questions;
+    saveRecentSeen([]);
+  }
+
+  const picked = shuffle(pool).slice(0, QUESTIONS_PER_GAME);
+
+  // Record the ids we just picked so the next game avoids them.
+  const updated = loadRecentSeen().concat(picked.map(q => q.id));
+  saveRecentSeen(updated);
+
+  return picked;
+}
+
 function initGame() {
   highScoreEl.textContent = highScore;
   currentScore = 0;
   currentScoreEl.textContent = currentScore;
-  
-  // Shuffle questions and pick 10
-  activeQuestions = [...questions].sort(() => Math.random() - 0.5).slice(0, 10);
   currentQuestionIndex = 0;
-  
+  activeQuestions = pickQuestionsForGame();
   loadQuestion();
 }
 
@@ -92,11 +83,11 @@ function loadQuestion() {
   feedbackContainer.className = 'feedback-hidden';
   optionsContainer.innerHTML = '';
   optionsContainer.classList.remove('disabled');
-  
+
   const q = activeQuestions[currentQuestionIndex];
   questionNumberEl.textContent = currentQuestionIndex + 1;
   questionText.textContent = q.question;
-  
+
   q.options.forEach((opt, idx) => {
     const btn = document.createElement('button');
     btn.className = 'option-btn';
@@ -109,11 +100,10 @@ function loadQuestion() {
 function handleAnswer(selectedIndex, btnElement) {
   optionsContainer.classList.add('disabled');
   const q = activeQuestions[currentQuestionIndex];
-  
-  // highlight correct answer
+
   const buttons = optionsContainer.querySelectorAll('.option-btn');
   buttons[q.answer].classList.add('correct');
-  
+
   if (selectedIndex === q.answer) {
     btnElement.classList.add('correct');
     currentScore += 100;
@@ -125,16 +115,20 @@ function handleAnswer(selectedIndex, btnElement) {
     feedbackText.textContent = 'Incorrect 🌠';
     feedbackText.style.color = '#ff6b6b';
   }
-  
+
   if (currentScore > highScore) {
     highScore = currentScore;
-    localStorage.setItem('astroquiz_highscore', highScore);
+    try {
+      localStorage.setItem(HIGHSCORE_KEY, String(highScore));
+    } catch {
+      // silently degrade if localStorage is unavailable
+    }
     highScoreEl.textContent = highScore;
   }
-  
+
   feedbackExplanation.textContent = q.explanation;
   feedbackContainer.className = 'feedback-visible';
-  
+
   if (currentQuestionIndex === activeQuestions.length - 1) {
     nextBtn.textContent = 'Play Again';
   } else {
@@ -151,5 +145,4 @@ nextBtn.addEventListener('click', () => {
   }
 });
 
-// Initialize on load
 document.addEventListener('DOMContentLoaded', initGame);
