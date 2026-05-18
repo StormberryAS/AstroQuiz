@@ -5,8 +5,9 @@ Privacy-first astronomical multiple-choice trivia. Part of the [Stormberry Labs]
 **Live:** [astro.stormberry.as](https://astro.stormberry.as)
 
 ## Features
-- 100-question bank tagged across three difficulty tiers (easy, medium, hard) and eleven topical areas (Solar System, Stars, Galaxies, Cosmology, Phenomena, Physics, History, Space missions, Telescopes, Constellations, Exoplanets).
-- 10 randomised questions per round drawn with a recently-seen exclusion: the last 30 question IDs are remembered in `localStorage`, so consecutive games feel fresh for several plays before any repeats become likely.
+- 100-question bank distributed across three difficulty tiers (38 easy, 42 medium, 20 hard) and eleven topical areas (Solar System, Stars, Galaxies, Cosmology, Phenomena, Physics, History, Space missions, Telescopes, Constellations, Exoplanets).
+- Difficulty selector with four modes: All, Easy, Medium, Hard. The chosen tier filters the draw pool for every game and persists in `localStorage` between sessions.
+- 10 randomised questions per round drawn with a recently-seen exclusion: the last 30 question IDs are remembered in `localStorage`, so consecutive games feel fresh for several plays before any repeats become likely. When the unseen pool inside the chosen tier drops below 10, the draw falls back to the full tier.
 - Immediate visual feedback with an explanation for every answer.
 - High score tracking via `localStorage`. No server, no cookies.
 - Glassmorphism UI with smooth card animations.

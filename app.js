@@ -4,11 +4,14 @@ const QUESTIONS_PER_GAME = 10;
 const RECENT_SEEN_LIMIT = 30;
 const HIGHSCORE_KEY = 'astroquiz_highscore';
 const RECENT_SEEN_KEY = 'astroquiz_recent_seen_ids';
+const DIFFICULTY_KEY = 'astroquiz_difficulty';
+const VALID_DIFFICULTIES = ['all', 'easy', 'medium', 'hard'];
 
 let currentScore = 0;
 let currentQuestionIndex = 0;
 let highScore = Number(localStorage.getItem(HIGHSCORE_KEY)) || 0;
 let activeQuestions = [];
+let currentDifficulty = loadDifficulty();
 
 const questionText = document.getElementById('question-text');
 const optionsContainer = document.getElementById('options-container');
@@ -19,6 +22,20 @@ const nextBtn = document.getElementById('next-btn');
 const currentScoreEl = document.getElementById('current-score');
 const highScoreEl = document.getElementById('high-score');
 const questionNumberEl = document.getElementById('question-number');
+const difficultySelector = document.getElementById('difficulty-selector');
+
+function loadDifficulty() {
+  const stored = localStorage.getItem(DIFFICULTY_KEY);
+  return VALID_DIFFICULTIES.includes(stored) ? stored : 'all';
+}
+
+function saveDifficulty(value) {
+  try {
+    localStorage.setItem(DIFFICULTY_KEY, value);
+  } catch {
+    // localStorage may be unavailable in private browsing; silently degrade.
+  }
+}
 
 function loadRecentSeen() {
   try {
@@ -48,26 +65,49 @@ function shuffle(array) {
   return out;
 }
 
+function questionsForDifficulty(difficulty) {
+  if (difficulty === 'all') return questions;
+  return questions.filter(q => q.difficulty === difficulty);
+}
+
 function pickQuestionsForGame() {
+  const tier = questionsForDifficulty(currentDifficulty);
   const recent = loadRecentSeen();
   const recentSet = new Set(recent);
-  let pool = questions.filter(q => !recentSet.has(q.id));
+  let pool = tier.filter(q => !recentSet.has(q.id));
 
-  // If too few unseen questions remain, reset the memory so the player keeps
-  // getting full ten-question games. Without this the pool could starve and
-  // a game would have fewer than ten questions.
+  // If the unseen pool inside the chosen tier has fewer than ten questions,
+  // fall back to the full tier. We do not clear recent-seen here because
+  // some tiers are small (Hard has 20) and clearing global recent would
+  // affect other tiers unfairly. Repeats inside a tier are acceptable.
   if (pool.length < QUESTIONS_PER_GAME) {
-    pool = questions;
-    saveRecentSeen([]);
+    pool = tier;
   }
 
   const picked = shuffle(pool).slice(0, QUESTIONS_PER_GAME);
 
-  // Record the ids we just picked so the next game avoids them.
+  // Update the global recent-seen list with the ids we just picked.
   const updated = loadRecentSeen().concat(picked.map(q => q.id));
   saveRecentSeen(updated);
 
   return picked;
+}
+
+function renderDifficultySelector() {
+  const buttons = difficultySelector.querySelectorAll('.difficulty-btn');
+  buttons.forEach(btn => {
+    const isActive = btn.dataset.difficulty === currentDifficulty;
+    btn.classList.toggle('active', isActive);
+    btn.setAttribute('aria-pressed', String(isActive));
+  });
+}
+
+function setDifficulty(value) {
+  if (!VALID_DIFFICULTIES.includes(value) || value === currentDifficulty) return;
+  currentDifficulty = value;
+  saveDifficulty(value);
+  renderDifficultySelector();
+  initGame();
 }
 
 function initGame() {
@@ -145,4 +185,13 @@ nextBtn.addEventListener('click', () => {
   }
 });
 
-document.addEventListener('DOMContentLoaded', initGame);
+difficultySelector.addEventListener('click', (event) => {
+  const btn = event.target.closest('.difficulty-btn');
+  if (!btn) return;
+  setDifficulty(btn.dataset.difficulty);
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderDifficultySelector();
+  initGame();
+});
