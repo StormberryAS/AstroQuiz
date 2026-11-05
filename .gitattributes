@@ -1,0 +1,8 @@
+# GitHub's language bar counts what people write, not what a tool generates. These files are
+# generated, so they are marked as such and left out of the statistics (and their diffs are
+# collapsed by default on GitHub).
+#
+# app.js and questions.js are compiled from ts/ by tools/build-ts.sh (5 November 2026); edit the
+# TypeScript.
+/app.js linguist-generated=true
+/questions.js linguist-generated=true

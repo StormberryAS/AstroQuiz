@@ -14,13 +14,15 @@ Privacy-first astronomical multiple-choice trivia. Part of the [Stormberry Labs]
 - Fully offline-capable after first load.
 
 ## Architecture
-- **Vanilla HTML/CSS/JS**, no frameworks, no build step.
+- **Vanilla HTML and CSS, TypeScript**, no frameworks.
+- **TypeScript source in `ts/`, compiled JavaScript committed.** `ts/app.ts` compiles to `app.js` and `ts/questions.ts` to `questions.js`, at the same paths the page has always loaded. The compiled files are committed because GitHub Pages serves the repository as it is, with no build step of its own; `.gitattributes` marks them as generated. Edit the TypeScript, never the `.js`.
+- **Build:** `tools/build-ts.sh` installs the pinned compiler (`npm ci`), compiles, then runs `bump_assets.py` to restamp the `?v=` cache stamps. `tools/build-ts.sh --check` changes nothing and fails when the committed JavaScript is not what the TypeScript compiles to. `npm test` runs the tests in `tests/` (Node 24, `node --test`). The published app has no runtime dependencies.
 - **Privacy first**, zero external requests after page load, zero tracking, zero cookies.
-- **Data and code separated**: questions live in `questions.js` as an `export const` array, the game logic in `app.js`. Adding questions is a content edit, not a code edit.
+- **Data and code separated**: questions live in `ts/questions.ts` as a typed `export const` array, the game logic in `ts/app.ts`. Adding questions is a content edit, not a code edit.
 - **Sovereign AI**, built and maintained using high-speed agentic workflows.
 
 ## Adding questions
-Append a new object to the array in `questions.js` with a unique `id`, a `question` string, a four-element `options` array, an `answer` index (0-3), an `explanation` string, a `difficulty` value (`"easy"`, `"medium"` or `"hard"`) and a `topic` string. The game picks up new questions on the next load.
+Append a new object to the array in `ts/questions.ts` with a unique `id`, a `question` string, a four-element `options` array, an `answer` index (0-3), an `explanation` string, a `difficulty` value (`"easy"`, `"medium"` or `"hard"`) and a `topic` (one of the eleven topics above). The `Question` type refuses anything else. Then run `tools/build-ts.sh` and `npm test`, and commit the TypeScript with the compiled `questions.js`. The game picks up new questions on the next load.
 
 ## Credits
 Built by [Stormberry AS](https://stormberry.as). Proudly powered by sovereign AI agents.
