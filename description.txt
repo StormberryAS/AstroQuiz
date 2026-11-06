@@ -8,7 +8,7 @@ Core Functionality:
 Why it fits:
 - Engages visitors and encourages repeat visits.
 - Re‑uses the same astronomical data sources as MoonApp and SunApp.
-- Fully offline – perfect for a privacy‑first site.
+- Runs in the browser and keeps scores on the device, perfect for a privacy‑first site.
 
 Potential UI Elements:
 - Card flip animation when revealing the answer.

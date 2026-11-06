@@ -11,7 +11,7 @@ Privacy-first astronomical multiple-choice trivia. Part of the [Stormberry Labs]
 - Immediate visual feedback with an explanation for every answer.
 - High score tracking via `localStorage`. No server, no cookies.
 - Glassmorphism UI with smooth card animations.
-- Fully offline-capable after first load.
+- Runs in your browser: once the page has loaded, the game script makes no network request, and your scores and settings stay in `localStorage` on your device. There is no service worker, so the page needs a network connection to open (the browser may reuse its cache), and it loads its font files from this site when it needs them.
 
 ## Architecture
 - **Vanilla HTML and CSS, TypeScript**, no frameworks.
